@@ -21,6 +21,7 @@
 #include <DS1302.h>
 #include <U8g2lib.h>
 #include <Wire.h>
+#include <OneButton.h>
 
 // You can change the pins here.
 // The porentiometer pin:
@@ -32,26 +33,38 @@
 #define DAT 12
 #define RST 13
 
+#define countof(a) (sizeof(a) / sizeof(a[0]))
+
+// Initialize variables.
+bool buttonClicked = false;
+bool buttonDoubleClicked = false;
+bool buttonLongPressed = false;
+
 // Create device objects.
 DS1302 rtc(RST, DAT, CLK);
 U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+OneButton btn(BTNPIN, false);
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  Serial.println("Configuring RTC module...");
+  Serial.println("Boot complete. Configuring RTC module...");
   Serial.println();
   rtc.writeProtect(false);
   rtc.halt(false);
   // Uncomment the two lines below to set the clock.
-  Time t(2021, 7, 23, 22, 25, 50, Time::kFriday);
-  rtc.time(t);
+  //  Time t(2021, 7, 23, 22, 25, 50, Time::kFriday);
+  //  rtc.time(t);
 
   Serial.println("RTC configuration completed. Configuring screen...");
   u8g2.begin();
   //  u8g2.enableUTF8Print();
-  //  u8g2.setFont(u8g2_font_ncenB10_tr);
-  Serial.println("Screen configuration completed. Moving to the loop...");
+  
+  Serial.println("Screen configuration completed. Configuring button...");
+  btn.attachClick(clicked);
+  btn.attachDoubleClick(doubleClicked);
+  btn.attachLongPressStop(longPressed);
+  Serial.println("Button configuration completed. Moving to the loop...");
 }
 
 void loop() {
@@ -59,24 +72,9 @@ void loop() {
   u8g2.firstPage();
   do {
     u8g2.setFont(u8g2_font_ncenB10_tr);
-//    u8g2.drawStr(0, 14, "RTC Test");
-//    printTime();
-    printMenu();
+    u8g2.drawStr(0, 28, "RTC Test");
+    String menuTxt[3] = {"Something"};
+    int menuResult = showMenu("Test", menuTxt);
+    Serial.println(menuTxt[menuResult]);
   } while (u8g2.nextPage());
-}
-
-void printTime() {
-  Time t = rtc.time();
-  char bufDate[10];
-  char bufTime[9];
-  snprintf(bufDate, sizeof(bufDate), "%04d/%02d/%02d", t.yr, t.mon, t.date);
-  snprintf(bufTime, sizeof(bufTime), "%02d:%02d:%02d", t.hr, t.min, t.sec);
-  String analogStr = "Analog:";
-  analogStr += String(analogRead(POTPIN));
-  String digitalStr = "Digital:";
-  digitalStr += String(digitalRead(BTNPIN));
-  u8g2.drawStr(0, 12, bufDate);
-  u8g2.drawStr(0, 24, bufTime);
-  u8g2.drawStr(0, 36, analogStr.c_str());
-  u8g2.drawStr(0, 48, digitalStr.c_str());
 }
