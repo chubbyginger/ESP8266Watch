@@ -1,5 +1,5 @@
 # 配置库
-如果家里网不好，直接安装esp8266是巨慢的，可以用以下方法安装：
+如果家里网不好，直接安装esp8266是巨慢的甚至可能根本装不上，可以用以下方法安装：
 
 1. 从[这里](https://github.com/yangshunhuai/ESP8266Watch/releases/libconfig)下载库配置包
 2. 解压缩
