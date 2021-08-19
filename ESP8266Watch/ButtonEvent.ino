@@ -1,11 +1,15 @@
-void clicked() {
-  buttonClicked = true;
+void btnleftClickedFunc() {
+  btnleftClicked = true;
 }
 
-void doubleClicked() {
-  buttonDoubleClicked = true;
+void btnenterClickedFunc() {
+  btnenterClicked = true;
 }
 
-void longPressed() {
-  buttonLongPressed = true;
+void btnrightClickedFunc() {
+  btnrightClicked = true;
+}
+
+void btnbackClickedFunc() {
+  btnbackClicked = true;
 }
