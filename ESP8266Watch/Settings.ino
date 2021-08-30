@@ -15,7 +15,7 @@ void settingsmenu() {
     } else if (selection == 2) {
       wifiConfig();
     } else if (selection == 5) {
-      selection = u8g2.userInterfaceMessage("Reboot?", "", "", "Yes\nNo");
+      selection = u8g2.userInterfaceMessage("Reboot?", "", "", " Yes \n No ");
       if (selection == 1) {
         ESP.restart();
       }

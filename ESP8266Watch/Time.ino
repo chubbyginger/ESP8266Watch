@@ -1,10 +1,13 @@
-/*
- * Notes on data persistence:
- * 
- * * The NTP server choice is intended to be stored in the EEPROM address
- *   128 to 129, max 1 byte, from 0 to 255. This means, you will have as
- *   many as 256 choices of NTP servers.
- */
+// NTP servers, user-editable.
+char *ntpservers[] = {
+  "ntp1.aliyun.com",
+  "ntp2.aliyun.com",
+  "ntp3.aliyun.com",
+  "ntp4.aliyun.com",
+  "ntp5.aliyun.com",
+  "ntp6.aliyun.com",
+  "ntp7.aliyun.com",
+};
 
 void printTime() {
   Time t = rtc.time();

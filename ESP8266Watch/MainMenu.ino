@@ -12,7 +12,7 @@ void mainmenu() {
     } else if (selection == 3) {
       settingsmenu();
     } else {
-      u8g2.userInterfaceMessage("Developing", "Go back", "", "OK");
+      u8g2.userInterfaceMessage("Developing", "Go back", "", " OK ");
     }
     yield();
   }

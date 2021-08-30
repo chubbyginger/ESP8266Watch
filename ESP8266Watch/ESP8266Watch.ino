@@ -91,6 +91,11 @@ void setup() {
   connectfromconfig();
   int secs = 0;
   Serial.print("Connecting...");
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_ncenB10_tr);
+  u8g2.drawStr(0, 12, "Booting...");
+  u8g2.drawStr(0, 24, "Connecting to WLAN...");
+  u8g2.sendBuffer();
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
     delay(1000);
@@ -100,11 +105,17 @@ void setup() {
     }
   }
   if (WiFi.status() == WL_CONNECTED) {
-    Serial.println("WiFi connected!");
+    Serial.println("WLAN connected!");
     Serial.print("Current SSID: ");
     Serial.println(WiFi.SSID());
+    u8g2.clearBuffer();
+    u8g2.setFont(u8g2_font_ncenB10_tr);
+    u8g2.drawStr(0, 12, "Booting...");
+    u8g2.drawStr(0, 24, "Connecting to WLAN...");
+    u8g2.drawStr(0, 36, "WLAN Connected!");
+    u8g2.sendBuffer();
   } else {
-    Serial.println("WiFi not connected!");
+    Serial.println("WLAN not connected!");
   }
 }
 

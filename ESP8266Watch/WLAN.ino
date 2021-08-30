@@ -1,13 +1,3 @@
-/*
- * Notes on data persistence:
- * 
- * The WiFi SSID and password are stored in the EEPROM.
- * * SSID is intended to be stored from address 0 to address 63, max 64 ASCII
- *   characters.
- * * Password is intended to be stored from address 64 to address 127, max 64
- *   ASCII characters.
- */
-
 const unsigned char configbmp[] U8X8_PROGMEM {
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -56,14 +46,14 @@ const unsigned char configbmp[] U8X8_PROGMEM {
 void wifiConfig() {
   if (WiFi.status() == WL_CONNECTED) {
     String ipaddress = WiFi.localIP().toString();
-    u8g2.userInterfaceMessage("Connected", "IP Addr:", ipaddress.c_str(), "OK");
+    u8g2.userInterfaceMessage("Connected", "IP Addr:", ipaddress.c_str(), " OK ");
   } else {
     smartConfig();
     Serial.println("SmartConfig Success");
     Serial.printf("SSID:%s\r\n", WiFi.SSID().c_str());
     Serial.printf("Password:%s\r\n", WiFi.psk().c_str());
     writeConfig(WiFi.SSID(), WiFi.psk());
-    int selection = u8g2.userInterfaceMessage("Connected", "To:", WiFi.SSID().c_str(), "OK\nDisconnect");
+    int selection = u8g2.userInterfaceMessage("Connected", "To:", WiFi.SSID().c_str(), " OK \n Disconnect ");
     if (selection == 2) {
       WiFi.disconnect(true);
     }
@@ -113,31 +103,4 @@ void connectfromconfig() {
 void writeConfig(String ssid, String passwd) {
   writeStringToEEPROM(0, ssid);
   writeStringToEEPROM(64, passwd);
-}
-
-/*
- * Read or write strings to EEPROM.
- * These functions come from The Robotics Back-End.
- * Reference: https://roboticsbackend.com/arduino-write-string-in-eeprom/
- */
-
-void writeStringToEEPROM(int addrOffset, const String &strToWrite)
-{
-  byte len = strToWrite.length();
-  EEPROM.write(addrOffset, len);
-  for (int i = 0; i < len; i++) {
-    EEPROM.write(addrOffset + 1 + i, strToWrite[i]);
-  }
-  EEPROM.commit();
-}
-
-String readStringFromEEPROM(int addrOffset)
-{
-  int newStrLen = EEPROM.read(addrOffset);
-  char data[newStrLen + 1];
-  for (int i = 0; i < newStrLen; i++) {
-    data[i] = EEPROM.read(addrOffset + 1 + i);
-  }
-  data[newStrLen] = '\0';
-  return String(data);
 }
