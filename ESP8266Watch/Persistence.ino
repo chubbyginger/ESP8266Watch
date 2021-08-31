@@ -23,6 +23,8 @@ void writeStringToEEPROM(int addrOffset, const String &strToWrite) {
   for (int i = 0; i < len; i++) {
     EEPROM.write(addrOffset + 1 + i, strToWrite[i]);
   }
+  // This line is specially for ESP8266 and ESP32. It saves the changes to the
+  // EEPROM.
   EEPROM.commit();
 }
 

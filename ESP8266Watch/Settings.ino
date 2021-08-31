@@ -14,6 +14,8 @@ void settingsmenu() {
       return;
     } else if (selection == 2) {
       wifiConfig();
+    } else if (selection == 4) {
+      ntpselect();
     } else if (selection == 5) {
       selection = u8g2.userInterfaceMessage("Reboot?", "", "", " Yes \n No ");
       if (selection == 1) {

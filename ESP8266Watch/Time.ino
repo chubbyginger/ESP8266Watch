@@ -28,3 +28,9 @@ void printTime() {
 //  u8g2.drawStr(0, 48, digitalStr.c_str());
   u8g2.sendBuffer();
 }
+
+void ntpselect() {
+  int selection = 0;
+  selection = u8g2.userInterfaceSelectionList("Choose server", selection, ntpservers);
+  Serial.println(selection);
+}
